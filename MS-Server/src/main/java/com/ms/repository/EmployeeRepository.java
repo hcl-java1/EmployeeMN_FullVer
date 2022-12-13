@@ -21,7 +21,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 		public List<Employee> findByLastName(@Param("lastname") String lastname);
 		
 		public List<Employee> findAllByOrderByEnoAsc();
-		
+	
+	//SELECT * FROM( SELECT a.*, rownum r__ FROM  ( SELECT * FROM employee   ORDER BY eno  ) a  WHERE rownum < ((pageNumber * pageSize) + 1 ))WHERE r__ >= (((pageNumber-1) * pageSize) + 1)
+	
 		@Query(value = "SELECT * FROM(SELECT a.*, rownum r__ FROM(SELECT * FROM employee ORDER BY eno ) a WHERE rownum < ((?1 * 1) + 1 ))WHERE r__ >= (((?1-1) * 1) + 1)",nativeQuery=true)
 		public List<Employee> EmployeePagination(int page);
 		
